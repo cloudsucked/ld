@@ -5,13 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <title>LaunchDarkly tutorial</title>
-    <!-- Use LaunchDarkly sdk -->
+    <!-- Use LaunchDarkly SDK -->
     <script src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
 </head>
 
 <body>
     <script>
-        // Allow to specify user via query params
         const params = new URLSearchParams(window.location.search)
         if (params.has('name') && params.has('key')) {
             var user = {
@@ -20,8 +19,8 @@
             };
         } else {
             var user = {
-                name: 'Nico van Niekerk',
-                key: 'nicotest',
+                name: 'John Doe',
+                key: 'johndoe',
             };
         }
 
@@ -31,10 +30,10 @@
         div.appendChild(document.createTextNode('Initializing...'));
 
         // Create a new LDClient instance with your environment-specific SDK key
+        // Allow "SDKs using Client-side ID" under the flag's "Settings > Client-side SDK availability"
         var ldclient = LDClient.initialize('6357c487d01a49116bf8935e', user);
 
         function render() {
-            // ldclient methods only work if "SDKs using Client-side ID" is selected under the flag "Settings > Client-side SDK availability"
             var flagValue = ldclient.variation('hello-world', false);
             var label = (flagValue ? 'Showing' : 'Not showing') + ' your feature to ' + user.key;
             console.log("SDK successfully connected! The value of hello-world is " + flagValue + " for " + user.key)

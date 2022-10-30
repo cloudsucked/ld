@@ -25,7 +25,8 @@
       var ldclient = LDClient.initialize('6357c487d01a49116bf8935e', user);
 
       function render() {
-        var flagValue = ldclient.variation('hello-world', true);
+        // ldclient methods only work if "SDKs using Client-side ID" is selected under the flag "Settings > Client-side SDK availability"
+        var flagValue = ldclient.variation('hello-world', false);
         var label = (flagValue ? 'Showing' : 'Not showing') + ' your feature to ' + user.key;
         console.log("SDK successfully connected! The value of hello-world is " + flagValue + " for " + user.key)
         div.replaceChild(document.createTextNode(label), div.firstChild);

@@ -11,8 +11,7 @@
 
 <body>
     <script>
-        // Set up the user properties. This user should appear on your LaunchDarkly users dashboard
-        // soon after you run the demo.
+        // Allow to specify user via query params
         const params = new URLSearchParams(window.location.search)
         if (params.has('name') && params.has('key')) {
             var user = {

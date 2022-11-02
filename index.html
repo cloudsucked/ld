@@ -7,9 +7,13 @@
     <title>LaunchDarkly tutorial</title>
     <!-- Use LaunchDarkly SDK -->
     <script src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
+    <div id="challenge-container"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAABDimvUvsblEst0" data-callback="javascriptCallback"></div>
+
     <script>
         const params = new URLSearchParams(window.location.search)
         if (params.has('name') && params.has('key')) {
@@ -35,6 +39,16 @@
 
         function render() {
             var flagValue = ldclient.variation('hello-world', false);
+            if (flagValue) {
+                window.onloadTurnstileCallback = function () {
+                    turnstile.render('#challenge-container', {
+                        sitekey: '0x4AAAAAAABDimvUvsblEst0',
+                        callback: function (token) {
+                            console.log(`Challenge Success ${token}`);
+                        },
+                    });
+                };
+            }
             var label = (flagValue ? 'Showing' : 'Not showing') + ' your feature to ' + user.key;
             console.log("SDK successfully connected! The value of hello-world is " + flagValue + " for " + user.key)
             div.replaceChild(document.createTextNode(label), div.firstChild);
